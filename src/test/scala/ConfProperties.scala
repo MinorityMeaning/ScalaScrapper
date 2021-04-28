@@ -1,0 +1,23 @@
+package ru.arip
+
+import java.io.FileInputStream
+import java.util.Properties
+import scala.io.Source.fromFile
+
+// Класс будет читать записанные в conf.properties значения.
+class ConfProperties {
+    //Путь до файла с настроками
+    val fileInputStream = new FileInputStream("src/test/resourses/conf.properties")
+    val PROPERTIES = new Properties()
+    PROPERTIES.load(fileInputStream)
+
+  //Метод запроса значений из файла с настройками
+  def getProperty(key: String): String = PROPERTIES.getProperty(key)
+
+  //Метод возвращает список вина
+  def listWines(): Array[String] = {
+    val source = fromFile(PROPERTIES.getProperty("path"))
+    val lines = try source.getLines.toArray finally source.close()
+    lines
+  }
+}
