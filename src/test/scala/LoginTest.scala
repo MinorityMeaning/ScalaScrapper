@@ -1,13 +1,11 @@
 package ru.arip
 
-import org.junit.{After, Assert, Before, Test}
+import pageClass.{WineStylePage, YandexPage}
+
+import org.junit.{After, Before, Test}
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.scalatestplus.junit.AssertionsForJUnit
-import org.scalatest._
-import org.scalatestplus.selenium._
-
-import java.lang.Thread.sleep
 import java.util.concurrent.TimeUnit
 
 class LoginTest extends AssertionsForJUnit {

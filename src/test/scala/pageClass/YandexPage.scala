@@ -1,9 +1,8 @@
 package ru.arip
+package pageClass
 
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
+import org.openqa.selenium.{WebDriver, WebElement}
 import org.openqa.selenium.support.{FindBy, PageFactory}
-import java.lang.Thread.sleep
 
 class YandexPage(driver: WebDriver) {
   // Определение локатора поля ввода логина

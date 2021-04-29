@@ -1,7 +1,7 @@
 package ru.arip
+package pageClass
 
-import org.openqa.selenium.WebDriver
-import org.openqa.selenium.WebElement
+import org.openqa.selenium.{WebDriver, WebElement}
 import org.openqa.selenium.support.{FindBy, PageFactory}
 
 class WineStylePage(driver: WebDriver) {
