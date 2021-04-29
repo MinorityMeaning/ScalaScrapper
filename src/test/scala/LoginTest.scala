@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
 import org.scalatestplus.junit.AssertionsForJUnit
 import org.scalatest._
+import org.scalatestplus.selenium._
 
 import java.lang.Thread.sleep
 import java.util.concurrent.TimeUnit
@@ -13,9 +14,9 @@ class LoginTest extends AssertionsForJUnit {
 
   var property: ConfProperties = _
   var driver: WebDriver = _
-  var loginPage: LoginPage = _
-  var profilePage: ProfilePage = _
   var searchPage: YandexPage = _
+  var wineStylePage: WineStylePage = _
+  var yandexHandle: String = _
 
    @Before def setup(): Unit = {
     property = new ConfProperties()
@@ -23,9 +24,8 @@ class LoginTest extends AssertionsForJUnit {
     //Экземпляр драйвера
     driver = new ChromeDriver()
     //Экземпляры страниц
-    //loginPage = new LoginPage(driver)
-    //profilePage = new ProfilePage(driver)
     searchPage = new YandexPage(driver)
+    wineStylePage = new WineStylePage(driver)
 
     driver.manage.window.maximize()
     // Задержка на выполнение теста = 10 сек.
@@ -52,16 +52,30 @@ class LoginTest extends AssertionsForJUnit {
  */
 
   @Test def test2(): Unit ={
-    searchPage.inputWine(property.listWines()(0))
-    searchPage.clickSearchBtn()
-    searchPage.urlSite.click()
-    sleep(10000)
-    driver.close()
-    sleep(10000)
+    for (wine: String <- property.listWines) {
+      searchPage.inputWine(wine + " site:winestyle.ru")
+      searchPage.clickSearchBtn()
+      yandexHandle = driver.getWindowHandle // Получаем дескриптор яндекса
+      searchPage.urlSite.click()
+
+      driver.switchTo().window(getHandle) // Переключаем фокус на страницу с вином
+      //Печатаем цену
+      println(wineStylePage.getPrice + " " + wineStylePage.getNamed)
+      driver.close()
+      driver.switchTo().window(yandexHandle) // Переключаем фокус на страницу поиска
+      driver.navigate().back()
+    }
   }
 
   @After def afterAll(): Unit = {
     driver.quit()
+  }
+
+  // Вернёт дескриптор открытого окна с вином.
+  def getHandle: String= {
+    val windowSet = driver.getWindowHandles // Все тайтлы вкладок
+    windowSet.remove(yandexHandle)
+    windowSet.iterator().next() // Вернёт оставшуюся строку вкладки
   }
 
 }
