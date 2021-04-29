@@ -16,7 +16,7 @@ class ConfProperties {
 
   //Метод возвращает список вина
   def listWines(): Array[String] = {
-    val source = fromFile(PROPERTIES.getProperty("path"))
+    val source = fromFile(getProperty("path"), getProperty("enc")) // (Путь к файлу и кодировка)
     val lines = try source.getLines.toArray finally source.close()
     lines
   }
